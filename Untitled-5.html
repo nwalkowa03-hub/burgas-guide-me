@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бургас · начало, калкулатор, транспорт + тротинетки</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f4f7fc 0%, #e9f0f5 100%);
+      color: #1e2f4e;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 48px 48px 32px 32px;
+      box-shadow: 0 20px 40px -10px rgba(0,20,40,0.25);
+      padding: 30px 35px;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #2a6f8f;
+      padding-bottom: 15px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      color: #0a4b6e;
+      filter: drop-shadow(0 6px 8px rgba(0,80,120,0.2));
+    }
+
+    .logo-text {
+      font-size: 1.9rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0e4d6e, #1682a7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 1.25rem;
+      font-weight: 600;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #115c7c;
+      padding: 8px 12px;
+      border-radius: 50px;
+      transition: 0.2s;
+      background: rgba(255,255,255,0.5);
+    }
+
+    .nav-links a:hover {
+      background: #137a9e;
+      color: white;
+      box-shadow: 0 8px 0 #0a4055;
+      transform: translateY(-2px);
+    }
+
+    .hero-img {
+      width: 100%;
+      border-radius: 36px;
+      margin: 25px 0 15px 0;
+      box-shadow: 0 18px 25px -8px #264e6b;
+      border: 5px solid white;
+      display: block;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+    }
+
+    .title-section {
+      text-align: center;
+      margin: 35px 0 40px;
+    }
+
+    .main-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #0b4157;
+      letter-spacing: 2px;
+      text-shadow: 4px 4px 0 #cfe7f0;
+    }
+
+    .sub-text {
+      font-size: 1.4rem;
+      color: #1d5a72;
+      max-width: 800px;
+      margin: 20px auto 0;
+      background: rgba(255,255,255,0.7);
+      padding: 12px 20px;
+      border-radius: 60px;
+    }
+
+    .card-grid {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 55px 0 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 32px;
+      padding: 20px 20px 28px;
+      width: 300px;
+      box-shadow: 0 15px 30px rgba(21, 94, 117, 0.2);
+      transition: 0.25s ease;
+      border: 1px solid #b3dae7;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 25px 35px -5px #19647e;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 24px;
+      border: 3px solid #98cadf;
+    }
+
+    .card h3 {
+      font-size: 1.8rem;
+      margin: 16px 0 8px;
+      color: #003b4f;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      color: #2c6072;
+      margin-bottom: 20px;
+    }
+
+    .card a {
+      display: inline-block;
+      background: #1b7f9c;
+      color: white;
+      text-decoration: none;
+      padding: 10px 25px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: 0.15s;
+      border: 2px solid white;
+    }
+
+    .card a:hover {
+      background: #094c61;
+      padding: 10px 35px;
+    }
+
+    .calculator-panel {
+      background: linear-gradient(125deg, #dbeff7, #b5dce8);
+      border-radius: 48px;
+      padding: 40px 35px;
+      margin: 50px 0 40px;
+      box-shadow: inset 0 -5px 0 #6f9cad, 0 15px 20px #aac0c9;
+    }
+
+    .calc-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #003349;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ticket-option {
+      background: white;
+      border-radius: 28px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .row-select {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 35px;
+      margin-top: 15px;
+    }
+
+    .age-group {
+      display: flex;
+      gap: 30px;
+      font-size: 1.3rem;
+      flex-wrap: wrap;
+    }
+
+    .age-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #ebf5fa;
+      padding: 8px 20px;
+      border-radius: 40px;
+    }
+
+    .qty-select {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .qty-select label {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .qty-select input {
+      width: 75px;
+      padding: 10px;
+      font-size: 1.2rem;
+      border-radius: 20px;
+      border: 2px solid #1682a7;
+      text-align: center;
+    }
+
+    .price-tag {
+      background: #116b85;
+      color: white;
+      padding: 8px 22px;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .total-btn {
+      background: #ffb74d;
+      border: none;
+      color: #1e2f4e;
+      font-size: 1.6rem;
+      font-weight: 800;
+      padding: 18px 45px;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: 0.1s;
+      border-bottom: 8px solid #c57f1e;
+      margin-top: 20px;
+    }
+
+    .total-btn:active {
+      border-bottom-width: 3px;
+      transform: translateY(5px);
+    }
+
+    #totalPrice {
+      font-size: 2rem;
+      background: #003349;
+      color: #ffe082;
+      padding: 15px 30px;
+      border-radius: 60px;
+      display: inline-block;
+      margin-left: 30px;
+    }
+
+    .transport-section {
+      margin: 50px 0 20px;
+    }
+
+    .transport-title {
+      font-size: 2.2rem;
+      margin-bottom: 25px;
+      color: #0a4355;
+    }
+
+    #map {
+      width: 100%;
+      height: 450px;
+      background: #c0d4dd;
+      border-radius: 40px;
+      border: 8px solid white;
+      box-shadow: 0 20px 30px #1c5f73;
+    }
+
+    .micro-mobility {
+      background: #edf7e7;
+      border-radius: 36px;
+      padding: 30px;
+      margin-top: 30px;
+      border: 3px solid #86b3a3;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .micro-text {
+      flex: 2 1 300px;
+    }
+
+    .micro-text h3 {
+      font-size: 2rem;
+      color: #0f6642;
+      margin-bottom: 15px;
+    }
+
+    .micro-text p {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .micro-text i {
+      color: #2b8c5e;
+      margin-right: 8px;
+    }
+
+    .micro-logos {
+      flex: 1 1 200px;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .micro-logos i {
+      font-size: 4.5rem;
+      color: #174e3b;
+    }
+
+    .footer-note {
+      margin-top: 55px;
+      text-align: center;
+      color: #226277;
+      border-top: 2px solid #79b8cc;
+      padding-top: 25px;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 800px) {
+      .container { padding: 20px; }
+      .logo-text { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="site-header">
+    <div class="logo-area">
+      <i class="fas fa-ship logo"></i>
+      <span class="logo-text">Бургас · морето</span>
+    </div>
+    <div class="nav-links">
+      <a href="#nachalo"><i class="fas fa-home"></i> Начало</a>
+      <a href="#calculator"><i class="fas fa-calculator"></i> Калкулатор</a>
+      <a href="#transport"><i class="fas fa-bus"></i> Транспорт</a>
+      <a href="#card1"><i class="fas fa-umbrella-beach"></i> Морска гара</a>
+    </div>
+  </header>
+
+  <img class="hero-img" src="https://images.pexels.com/photos/4600251/pexels-photo-4600251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
+       alt="Бургас - Морска гара и плаж">
+
+  <div class="title-section" id="nachalo">
+    <h1 class="main-title">🌊 Бургас те очаква</h1>
+    <p class="sub-text">Открий лятната душа на града – калкулатор за билети, плажове, тротинетки и транспорт.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" id="card1">
+      <img src="https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Морска гара Бургас">
+      <h3>⛵ Морска гара</h3>
+      <p>Разходки с корабче, рибен ресторант и залези.</p>
+      <a href="https://www.burgas.bg/bg/pazari-i-obekti/morska-gara" target="_blank">Научи повече ➡</a>
+    </div>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Солници Бургас">
+      <h3>🧂 Солници & Атанасовско</h3>
+      <p>Защитена местност, фламинго и розово езеро.</p>
+      <a href="https://visitburgas.com/%D0%B0%D1%82%D0%B0%D0%BD%D0%B0%D1%81%D0%BE%D0%B2%D1%81%D0%BA%D0%BE-%D0%B5%D0%B7%D0%B5%D1%80%D0%BE/" target="_blank">Разгледай →</a>
+    </div>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/17485619/pexels-photo-17485619.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Акве Калиде Бургас">
+      <h3>♨ Акве Калиде</h3>
+      <p>Термални бани и древна история до морето.</p>
+      <a href="https://burgasmuseums.bg/aquae-calidae/" target="_blank">Виж билети ➤</a>
+    </div>
+
+    <div class="card">
+      <img src="https://images.pexels.com/photos/2413567/pexels-photo-2413567.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Природен парк Странджа">
+      <h3>🌲 Странджа (близо)</h3>
+      <p>Планина до морето – походи, села и свежест.</p>
+      <a href="https://visitburgas.com/%D0%BF%D1%80%D0%B8%D1%80%D0%BE%D0%B4%D0%B5%D0%BD-%D0%BF%D0%B0%D1%80%D0%BA-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B4%D0%B6%D0%B0/" target="_blank">Открий ➤</a>
+    </div>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/957024/pexels-photo-957024.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Бургаски плаж">
+      <h3>🏖️ Централен плаж</h3>
+      <p>Пясъчна ивица, бараки, водни спортове.</p>
+      <a href="https://www.burgas.bg/bg/pazari-i-obekti/plazh" target="_blank">Слънце + ➡</a>
+    </div>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Остров Света Анастасия">
+      <h3>🏝️ о. Св. Анастасия</h3>
+      <p>Единственият обитаем остров – манастир, ресторант.</p>
+      <a href="https://ostrovsvetaanastasia.bg/" target="_blank">Корабче ➤</a>
+    </div>
+  </div>
+  <section id="calculator" class="calculator-panel">
+    <div class="calc-title">
+      <i class="fas fa-ticket-alt"></i> Калкулатор: билети за атракциони (6 опции)
+    </div>
+
+    <div class="ticket-option">
+      <h2 style="font-size:1.8rem; color:#0a4b62;">🚢 Разходка „Морска гара“</h2>
+      <div class="row-select">
+        <div class="age-group">
+          <label><i class="fas fa-user"></i> Възрастен – 12 лв.</label>
+          <label><i class="fas fa-child"></i> Дете – 6 лв.</label>
+        </div>
+        <div class="qty-select">
+          <label>🚹 Възрастни (бр.):</label>
+          <input type="number" id="adultShip" value="0" min="0" step="1">
+        </div>
+        <div class="qty-select">
+          <label>🧒 Деца (бр.):</label>
+          <input type="number" id="childShip" value="0" min="0" step="1">
+        </div>
+        <span class="price-tag">цена: 12/6 лв.</span>
+      </div>
+    </div>
+    <div class="ticket-option">
+      <h2 style="font-size:1.8rem; color:#0a4b62;">🦩 Атанасовско езеро – биоразходка</h2>
+      <div class="row-select">
+        <div class="age-group">
+          <label><i class="fas fa-user"></i> Възрастен – 8 лв.</label>
+          <label><i class="fas fa-child"></i> Дете – 4 лв.</label>
+        </div>
+        <div class="qty-select">
+          <label>🚹 Възрастни (бр.):</label>
+          <input type="number" id="adultLake" value="0" min="0" step="1">
+        </div>
+        <div class="qty-select">
+          <label>🧒 Деца (бр.):</label>
+          <input type="number" id="childLake" value="0" min="0" step="1">
+        </div>
+        <span class="price-tag">цена: 8/4 лв.</span>
+      </div>
+    </div>
+
+    <div class="ticket-option">
+      <h2 style="font-size:1.8rem; color:#0a4b62;">💧 Акве Калиде (терми)</h2>
+      <div class="row-select">
+        <div class="age-group">
+          <label><i class="fas fa-user"></i> Възрастен – 15 лв.</label>
+          <label><i class="fas fa-child"></i> Дете – 7 лв.</label>
+        </div>
+        <div class="qty-select">
+          <label>🚹 Възрастни (бр.):</label>
+          <input type="number" id="adultTherm" value="0" min="0" step="1">
+        </div>
+        <div class="qty-select">
+          <label>🧒 Деца (бр.):</label>
+          <input type="number" id="childTherm" value="0" min="0" step="1">
+        </div>
+        <span class="price-tag">цена: 15/7 лв.</span>
+      </div>
+    </div>
+
+    <div class="ticket-option">
+      <h2 style="font-size:1.8rem; color:#0a4b62;">☀️ Централен плаж (шезлонг+чадър)</h2>
+      <div class="row-select">
+        <div class="age-group">
+          <label><i class="fas fa-user"></i> Чадър + 2 шезлонга – 20 лв.</label>
+          <label><i class="fas fa-child"></i> Доп. детски столче – 5 лв.</label>
+        </div>
+        <div class="qty-select">
+          <label>🏖️ комплекти (чадър+2):</label>
+          <input type="number" id="adultBeach" value="0" min="0" step="1">
+        </div>
+        <div class="qty-select">
+          <label>🪑 дет. столче:</label>
+          <input type="number" id="childBeach" value="0" min="0" step="1">
+        </div>
+        <span class="price-tag">20 / 5 лв.</span>
+      </div>
+    </div>
+
+    <div class="ticket-option">
+      <h2 style="font-size:1.8rem; color:#0a4b62;">⛴️ Остров Св. Анастасия (пакет)</h2>
+      <div class="row-select">
+        <div class="age-group">
+          <label><i class="fas fa-user"></i> Възрастен (транспорт) – 18 лв.</label>
+          <label><i class="fas fa-child"></i> Дете (до 12 г.) – 10 лв.</label>
+        </div>
+        <div class="qty-select">
+          <label>🚹 възрастни:</label>
+          <input type="number" id="adultIsland" value="0" min="0" step="1">
+        </div>
+        <div class="qty-select">
+          <label>🧒 деца:</label>
+          <input type="number" id="childIsland" value="0" min="0" step="1">
+        </div>
+        <span class="price-tag">18/10 лв.</span>
+      </div>
+    </div>
+
+    <div class="ticket-option">
+      <h2 style="font-size:1.8rem; color:#0a4b62;">🚲 Вело/тротинетка под наем (час)</h2>
+      <div class="row-select">
+        <div class="age-group">
+          <label><i class="fas fa-bicycle"></i> Велосипед – 8 лв./ч</label>
+          <label><i class="fas fa-scooter"></i> Тротинетка – 10 лв./ч</label>
+        </div>
+        <div class="qty-select">
+          <label>🚲 брой велосипеди:</label>
+          <input type="number" id="adultBike" value="0" min="0" step="1">
+        </div>
+        <div class="qty-select">
+          <label>🛴 брой тротинетки:</label>
+          <input type="number" id="adultScooter" value="0" min="0" step="1">
+        </div>
+        <span class="price-tag">8 лв./10 лв.</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 30px; margin-top: 30px;">
+      <button class="total-btn" onclick="calculateTickets()"><i class="fas fa-coins"></i> СМЕТНИ ОБЩО</button>
+      <span id="totalPrice" style="background: #0b4a5e;">0.00 лв.</span>
+    </div>
+    <p style="margin-top: 20px; font-style: italic; color: #1a4b5e;"><i class="fas fa-info-circle"></i> Всички 6 опции – избери брой (възрастни/деца/часове).</p>
+  </section>
+
+  <section id="transport" class="transport-section">
+    <div class="transport-title">
+      <i class="fas fa-map"></i> Транспорт в Бургас – карта + тротинетки
+    </div>
+    <div id="map"></div>
+    <div class="micro-mobility">
+      <div class="micro-text">
+        <h3><i class="fas fa-bolt"></i> Споделени тротинетки & колела</h3>
+        <p>📍 <strong>Lime</strong> – стотици е-тротинетки из целия град. Цена: 1,90 лв. отключване + 0,50 лв./мин.</p>
+        <p>📍 <strong>Bird</strong> – също налични в централната част и по крайбрежието. Работят с приложението.</p>
+        <p>📍 <strong>Общинска велосистема</strong> – 18 станции, първите 30 мин. безплатни с карта (годишен абонамент 20 лв.).</p>
+        <p><i class="fas fa-check-circle" style="color: #1f8b4c;"></i> Велоалеи над 30 км – от Морската градина до Сарафово.</p>
+        <p>🔋 Зарядни станции за тротинетки има на спирките на "Морско казино", "Експозиционен център" и "Летището".</p>
+      </div>
+      <div class="micro-logos">
+        <i class="fas fa-bicycle"></i>
+        <i class="fas fa-scooter"></i>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-note">
+    <i class="fas fa-anchor"></i> Бургас · начало, калкулатор, транспорт · 2026
+  </div>
+</div>
+
+<script>
+  function calculateTickets() {
+    const ADULT_SHIP = 12, CHILD_SHIP = 6;
+    const ADULT_LAKE = 8,  CHILD_LAKE = 4;
+    const ADULT_THERM = 15, CHILD_THERM = 7;
+    const ADULT_BEACH = 20, CHILD_BEACH = 5;  
+    const ADULT_ISLAND = 18, CHILD_ISLAND = 10;
+    const BIKE_HOUR = 8, SCOOTER_HOUR = 10;     
+    let adultShip = parseInt(document.getElementById('adultShip')?.value) || 0;
+    let childShip = parseInt(document.getElementById('childShip')?.value) || 0;
+    let adultLake = parseInt(document.getElementById('adultLake')?.value) || 0;
+    let childLake = parseInt(document.getElementById('childLake')?.value) || 0;
+    let adultTherm = parseInt(document.getElementById('adultTherm')?.value) || 0;
+    let childTherm = parseInt(document.getElementById('childTherm')?.value) || 0;
+
+    let adultBeach = parseInt(document.getElementById('adultBeach')?.value) || 0;
+    let childBeach = parseInt(document.getElementById('childBeach')?.value) || 0;
+    let adultIsland = parseInt(document.getElementById('adultIsland')?.value) || 0;
+    let childIsland = parseInt(document.getElementById('childIsland')?.value) || 0;
+    let adultBike = parseInt(document.getElementById('adultBike')?.value) || 0;    
+    let adultScooter = parseInt(document.getElementById('adultScooter')?.value) || 0; 
+
+    let total = (adultShip * ADULT_SHIP) + (childShip * CHILD_SHIP) +
+                (adultLake * ADULT_LAKE) + (childLake * CHILD_LAKE) +
+                (adultTherm * ADULT_THERM) + (childTherm * CHILD_THERM) +
+                (adultBeach * ADULT_BEACH) + (childBeach * CHILD_BEACH) +
+                (adultIsland * ADULT_ISLAND) + (childIsland * CHILD_ISLAND) +
+                (adultBike * BIKE_HOUR) + (adultScooter * SCOOTER_HOUR);
+
+    document.getElementById('totalPrice').innerHTML = total.toFixed(2) + ' лв.';
+  }
+
+  window.onload = function() {
+    calculateTickets();
+  };
+  function initMap() {
+    const burgasCenter = { lat: 42.518, lng: 27.467 };
+    const map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 13,
+      center: burgasCenter,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+    });
+
+    new google.maps.Marker({
+      position: burgasCenter,
+      map: map,
+      title: "Бургас - център",
+      icon: { url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png", scaledSize: new google.maps.Size(45,45) }
+    });
+    new google.maps.Marker({
+      position: { lat: 42.4915, lng: 27.4731 },
+      map: map,
+      title: "Морска гара Бургас",
+      icon: "https://maps.google.com/mapfiles/ms/icons/ferry.png"
+    });
+    new google.maps.Marker({
+      position: { lat: 42.5040, lng: 27.4745 },
+      map: map,
+      title: "Автогара / ЖП гара",
+      icon: "https://maps.google.com/mapfiles/ms/icons/bus.png"
+    });
+    new google.maps.Marker({
+      position: { lat: 42.5695, lng: 27.5152 },
+      map: map,
+      title: "Летище Бургас",
+      icon: "https://maps.google.com/mapfiles/ms/icons/airport.png"
+    });
+    new google.maps.Marker({
+      position: { lat: 42.4940, lng: 27.4770 },
+      map: map,
+      title: "Зона Lime & колела",
+      icon: "https://maps.google.com/mapfiles/ms/icons/bikes.png"
+    });
+  }
+  window.initMap = initMap;
+</script>
+</body>
+</html>
