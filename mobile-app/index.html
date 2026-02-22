@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #FFB300; margin: 0; padding: 10px; }
+        h1 { color: white; font-style: italic; font-size: 22px; margin: 10px 0; }
+        /* Контрол на размера на снимката */
+        img { width: 75%; max-height: 220px; border-radius: 15px; border: 3px solid white; object-fit: cover; }
+        .instruction { color: #003399; font-weight: bold; margin: 12px 0; font-size: 15px; }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 5px; }
+        button { 
+            padding: 10px; font-size: 13px; border: none; border-radius: 8px; 
+            background: #003399; color: white; font-weight: bold; cursor: pointer;
+        }
+        button:active { background: #001f5c; transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <h1>Бургаско приключение</h1>
+    <img src="Burgass.jpg">
+    <div class="instruction">Listen in your language:</div>
+    <div class="lang-grid">
+        <button onclick="window.AppInventor.setWebViewString('EN')">ENGLISH</button>
+        <button onclick="window.AppInventor.setWebViewString('DE')">DEUTSCH</button>
+        <button onclick="window.AppInventor.setWebViewString('FR')">FRANÇAIS</button>
+        <button onclick="window.AppInventor.setWebViewString('ES')">ESPAÑOL</button>
+        <button onclick="window.AppInventor.setWebViewString('IT')">ITALIANO</button>
+    </div>
+</body>
+</html>
