@@ -1,0 +1,75 @@
+
+
+    
+   <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            background-color: #FFB300; 
+            margin: 0; 
+            padding: 0;
+            overflow-x: hidden;
+        }
+        h1 { color: white; font-style: italic; font-size: 22px; margin: 10px 0; }
+        
+        /* Снимката вече няма да реже моста */
+        img { 
+            width: 100%; 
+            height: auto; /* Сама определя височината си, за да не реже образа */
+            display: block;
+            border: none;
+            object-fit: contain; /* Гарантира, че целият мост е в кадър */
+        }
+
+        .instruction { 
+            color: #003399; 
+            font-weight: bold; 
+            margin: 10px 0 8px 0; /* Намален маржин, за да вдигнем бутоните */
+            font-size: 15px; 
+        }
+        
+        .lang-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 6px; 
+            padding: 0 10px 15px 10px;
+        }
+        
+        button { 
+            padding: 10px 2px; 
+            font-size: 11px; 
+            border: none; 
+            border-radius: 6px; 
+            background: #A9A9A9; 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+        }
+        
+        button:active { 
+            background: #808080; 
+            transform: scale(0.95); 
+        }
+    </style>
+</head>
+<body>
+    <h1>Мобилно приложение</h1>
+    
+    <img src="http://localhost/burgas.jpg">
+    
+    <div class="instruction">Listen in your language:</div>
+    
+    <div class="lang-grid">
+        <button onclick="window.AppInventor.setWebViewString('EN')">English</button>
+        <button onclick="window.AppInventor.setWebViewString('DE')">Deutsch</button>
+        <button onclick="window.AppInventor.setWebViewString('FR')">Français</button>
+    </div>
+</body>
+</html>
