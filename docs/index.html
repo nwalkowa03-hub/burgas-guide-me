@@ -5,9 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Бургас · начало, калкулатор, транспорт + тротинетки</title>
-  <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
-    defer></script>
+ 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -249,7 +247,14 @@
       <div class="transport-title">
         <i class="fas fa-map"></i> Транспорт в Бургас
       </div>
-      <div id="map"></div>
+     <div style="width: 100%; height: 450px; border-radius: 12px; overflow: hidden; border: 2px solid #1a4b5e; margin-bottom: 20px;">
+  <iframe 
+    width="100%" 
+    height="100%" 
+    frameborder="0" 
+    src="https://www.openstreetmap.org/export/embed.html?bbox=27.4215%2C42.4725%2C27.5255%2C42.5355&amp;layer=transportmap">
+  </iframe>
+</div>
       <div class="micro-mobility">
         <div class="micro-text">
           <h3><i class="fas fa-bolt"></i> Споделени тротинетки & колела</h3>
@@ -331,43 +336,7 @@
 
     window.onload = function () { calculateTickets(); };
 
-  function initMap() {
-    // Координати на центъра (Бургас)
-    const burgasCenter = { lat: 42.518, lng: 27.467 };
-
-    // Инициализация на картата
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 13,
-      center: burgasCenter,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    });
-
-    // Дефиниране на маркерите
-    const locations = [
-      { title: "Бургас - център", pos: { lat: 42.518, lng: 27.467 } },
-      { title: "Морска гара", pos: { lat: 42.4915, lng: 27.4731 } },
-      { title: "Автогара", pos: { lat: 42.5040, lng: 27.4745 } },
-      { title: "Летище", pos: { lat: 42.5695, lng: 27.5152 } },
-      { title: "Зона Lime & колела", pos: { lat: 42.4940, lng: 27.4770 } }
-    ];
-
-    // Автоматично добавяне на всички маркери чрез цикъл
-    locations.forEach(location => {
-      new google.maps.Marker({
-        position: location.pos,
-        map: map,
-        title: location.title
-      });
-    });
-  }
-
-  // Свързване на функцията с глобалния обект window
-  window.initMap = initMap;
-</script>
-
-<script async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyM_ird3d79b0inde5EZXCweZrHhgEebQ&callback=initMap">
-</script>
-</body>
+ 
 
 </html>
+
