@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бургас – забележителности, калкулатор и транспорт</title>
+<meta name="description" content="Какво да видите в Бургас, колко ще струва и как да се придвижвате.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d2b3a; --sea:#14708c; --sea-dark:#0b4a60; --foam:#f3f8fa; --card:#ffffff;
+  --salt:#e4606d; --salt-soft:#fde8ea; --line:#d3e3ea; --muted:#4d6a78;
+  --radius:14px; color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ink:#e8f2f6; --sea:#5ec0dc; --sea-dark:#9bdcf0; --foam:#0b1d27; --card:#112b38;
+    --salt:#ff8a95; --salt-soft:#3a2229; --line:#244555; --muted:#9ab5c2; color-scheme:dark;}
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--foam);color:var(--ink);line-height:1.6}
+h1,h2,h3{font-family:Lora,Georgia,serif;line-height:1.2}
+a{color:var(--sea)}
+:focus-visible{outline:3px solid var(--salt);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;background:var(--card);padding:8px 12px;z-index:50}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--foam) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;flex-wrap:wrap}
+.brand{font-family:Lora,serif;font-weight:700;font-size:1.25rem;color:var(--ink);text-decoration:none}
+nav ul{list-style:none;display:flex;gap:4px;padding:0;flex-wrap:wrap}
+nav a{display:block;padding:8px 14px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:600;font-size:.95rem}
+nav a:hover{background:var(--sea);color:#fff}
+
+/* hero */
+.hero{position:relative;min-height:440px;display:grid;align-items:end;color:#fff;
+  background:linear-gradient(180deg,rgba(6,30,42,.15),rgba(6,30,42,.82)),url("https://images.pexels.com/photos/4600251/pexels-photo-4600251.jpeg?auto=compress&cs=tinysrgb&w=1600") center/cover,var(--sea-dark)}
+.hero .wrap{padding-bottom:44px;padding-top:120px}
+.hero h1{font-size:clamp(2.2rem,6vw,4.2rem);max-width:14ch}
+.hero p{font-size:1.15rem;max-width:52ch;margin:14px 0 24px;opacity:.95}
+.btn{display:inline-block;border:0;cursor:pointer;font:inherit;font-weight:800;padding:12px 24px;border-radius:999px;text-decoration:none;background:var(--salt);color:#2a0a10}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:#fff;border:2px solid #fff;margin-left:8px}
+
+section{padding:64px 0}
+section>.wrap>h2{font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:8px}
+.lead{color:var(--muted);max-width:60ch;margin-bottom:28px}
+
+/* places */
+.places{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+.place{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.place img{width:100%;height:190px;object-fit:cover;background:linear-gradient(135deg,var(--sea),var(--sea-dark))}
+.place div{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.place h3{font-size:1.25rem}
+.place p{color:var(--muted);flex:1}
+.place a{font-weight:700}
+
+/* calculator */
+#calculator{background:var(--card);border-block:1px solid var(--line)}
+.calc{display:grid;grid-template-columns:1fr 340px;gap:28px;align-items:start}
+.items{display:grid;gap:14px}
+.item{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:var(--foam)}
+.item h3{font-size:1.1rem;margin-bottom:10px}
+.line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+.line .lbl{display:flex;flex-direction:column}
+.line small{color:var(--muted)}
+.stepper{display:flex;align-items:center;gap:4px}
+.stepper button{width:36px;height:36px;border-radius:50%;border:1px solid var(--sea);background:var(--card);color:var(--sea);font-size:1.2rem;font-weight:800;cursor:pointer}
+.stepper button:hover{background:var(--sea);color:#fff}
+.stepper input{width:52px;height:36px;text-align:center;font:inherit;font-weight:700;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.summary{position:sticky;top:76px;border:2px solid var(--sea);border-radius:var(--radius);padding:20px;background:var(--foam)}
+.summary h3{margin-bottom:12px}
+#breakdown{list-style:none;padding:0;min-height:60px;font-size:.95rem}
+#breakdown li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line)}
+#breakdown .empty{color:var(--muted);border:0}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 4px;font-weight:800}
+.total strong{font-size:2rem;font-family:Lora,serif}
+.bgn{color:var(--muted);font-size:.9rem;text-align:right}
+.summary .btn{margin-top:14px;width:100%;background:var(--sea);color:#fff}
+.summary .btn.reset{background:transparent;color:var(--muted);border:1px solid var(--line);margin-top:8px;font-weight:600}
+.note{font-size:.85rem;color:var(--muted);margin-top:14px}
+
+/* transport */
+.transport{display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+#map{min-height:440px;border-radius:var(--radius);border:1px solid var(--line);background:var(--line);display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);overflow:hidden}
+.mobility{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.mobility h3{margin-bottom:12px}
+.mobility ul{padding-left:20px;display:grid;gap:10px}
+.mobility li::marker{color:var(--salt)}
+
+footer{padding:32px 0;text-align:center;color:var(--muted);font-size:.9rem}
+
+@media (max-width:860px){
+  .calc,.transport{grid-template-columns:1fr}
+  .summary{position:static}
+  .hero .btn.ghost{margin:10px 0 0}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#calculator">Към калкулатора</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Бургас</a>
+    <nav aria-label="Главна навигация">
+      <ul>
+        <li><a href="#places">Места</a></li>
+        <li><a href="#calculator">Калкулатор</a></li>
+        <li><a href="#transport">Транспорт</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <h1>Бургас – градът между морето и соления залив</h1>
+      <p>Шест места, които си заслужава да видите, калкулатор за разходите и карта с транспорта.</p>
+      <a class="btn" href="#calculator">Изчисли бюджета</a><a class="btn ghost" href="#places">Виж местата</a>
+    </div>
+  </div>
+
+  <section id="places">
+    <div class="wrap">
+      <h2>Какво да видите</h2>
+      <p class="lead">От морската градина до фламингата в Атанасовско езеро – всичко е на по-малко от час от центъра.</p>
+      <div class="places">
+        <article class="place"><img loading="lazy" alt="Морска гара Бургас" src="https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg?auto=compress&cs=tinysrgb&w=600"><div><h3>Морска гара</h3><p>Разходки с корабче, рибен ресторант и залези над залива.</p><a href="https://www.burgas.bg/bg/pazari-i-obekti/morska-gara" target="_blank" rel="noopener">Научи повече</a></div></article>
+        <article class="place"><img loading="lazy" alt="Атанасовско езеро" src="https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg?auto=compress&cs=tinysrgb&w=600"><div><h3>Солници и Атанасовско езеро</h3><p>Защитена местност с фламинга и розова вода през лятото.</p><a href="https://visitburgas.com/%D0%B0%D1%82%D0%B0%D0%BD%D0%B0%D1%81%D0%BE%D0%B2%D1%81%D0%BA%D0%BE-%D0%B5%D0%B7%D0%B5%D1%80%D0%BE/" target="_blank" rel="noopener">Разгледай</a></div></article>
+        <article class="place"><img loading="lazy" alt="Акве Калиде" src="https://images.pexels.com/photos/17485619/pexels-photo-17485619.jpeg?auto=compress&cs=tinysrgb&w=600"><div><h3>Акве Калиде</h3><p>Термални бани и римска история до морето.</p><a href="https://burgasmuseums.bg/aquae-calidae/" target="_blank" rel="noopener">Виж билети</a></div></article>
+        <article class="place"><img loading="lazy" alt="Странджа" src="https://images.pexels.com/photos/2413567/pexels-photo-2413567.jpeg?auto=compress&cs=tinysrgb&w=600"><div><h3>Странджа</h3><p>Планина близо до морето – пътеки, села и прохлада.</p><a href="https://visitburgas.com/%D0%BF%D1%80%D0%B8%D1%80%D0%BE%D0%B4%D0%B5%D0%BD-%D0%BF%D0%B0%D1%80%D0%BA-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B4%D0%B6%D0%B0/" target="_blank" rel="noopener">Открий</a></div></article>
+        <article class="place"><img loading="lazy" alt="Централен плаж" src="https://images.pexels.com/photos/957024/pexels-photo-957024.jpeg?auto=compress&cs=tinysrgb&w=600"><div><h3>Централен плаж</h3><p>Широка пясъчна ивица с шезлонги и водни спортове.</p><a href="https://www.burgas.bg/bg/pazari-i-obekti/plazh" target="_blank" rel="noopener">Към плажа</a></div></article>
+        <article class="place"><img loading="lazy" alt="Остров Света Анастасия" src="https://images.pexels.com/photos/356830/pexels-photo-356830.jpeg?auto=compress&cs=tinysrgb&w=600"><div><h3>Остров Света Анастасия</h3><p>Островът с манастир и ресторант, достъпен с корабче.</p><a href="https://ostrovsvetaanastasia.bg/" target="_blank" rel="noopener">Към острова</a></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="calculator">
+    <div class="wrap">
+      <h2>Калкулатор на разходите</h2>
+      <p class="lead">Задайте броя и общата сума се обновява веднага. Цените са в евро, с левова равностойност по фиксирания курс.</p>
+      <div class="calc">
+        <div class="items" id="items"></div>
+        <aside class="summary" aria-live="polite">
+          <h3>Вашият бюджет</h3>
+          <ul id="breakdown"></ul>
+          <div class="total"><span>Общо</span><strong id="totalEur">0,00 €</strong></div>
+          <div class="bgn" id="totalBgn">0,00 лв.</div>
+          <button class="btn reset" type="button" id="reset">Изчисти всичко</button>
+          <p class="note">Цените са примерни. Проверете ги при доставчика преди да планирате.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="transport">
+    <div class="wrap">
+      <h2>Транспорт</h2>
+      <p class="lead">Основните точки за пристигане и придвижване в и около града.</p>
+      <div class="transport">
+        <div id="map" role="region" aria-label="Карта на Бургас">Зареждане на картата…</div>
+        <div class="mobility">
+          <h3>Тротинетки и колела</h3>
+          <ul>
+            <li>Споделени електрически тротинетки и колела има в централната част и по крайбрежието. Цените и зоните за паркиране се виждат в приложението на оператора.</li>
+            <li>Велоалеите покриват големи части от крайбрежието и Морската градина – удобни за разходка до Сарафово.</li>
+            <li>Паркирайте само в обозначените зони и не блокирайте тротоарите.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">Бургас · 2026</div></footer>
+
+<script>
+/* ---------- Данни ---------- */
+const RATE = 1.95583; // официален курс лв./€
+const ATTRACTIONS = [
+  {id:'ship',   name:'Разходка от Морска гара',        lines:[['Възрастен',12],['Дете',6]]},
+  {id:'lake',   name:'Атанасовско езеро – разходка',   lines:[['Възрастен',8],['Дете',4]]},
+  {id:'therm',  name:'Акве Калиде',                    lines:[['Възрастен',15],['Дете',7]]},
+  {id:'beach',  name:'Централен плаж',                 lines:[['Чадър + 2 шезлонга',20,'комплект'],['Допълнително детско столче',5]]},
+  {id:'island', name:'Остров Света Анастасия',         lines:[['Възрастен (транспорт)',18],['Дете до 12 г.',10]]},
+  {id:'rent',   name:'Наем за час',                    lines:[['Велосипед',8,'на час'],['Тротинетка',10,'на час']]},
+];
+const fmtEur = n => (n/RATE).toLocaleString('bg-BG',{style:'currency',currency:'EUR'});
+const fmtBgn = n => n.toLocaleString('bg-BG',{minimumFractionDigits:2,maximumFractionDigits:2})+' лв.';
+
+/* ---------- Калкулатор ---------- */
+const itemsEl = document.getElementById('items');
+const qty = {}; // key -> брой
+
+ATTRACTIONS.forEach(a=>{
+  const box = document.createElement('div'); box.className='item';
+  box.innerHTML = `<h3>${a.name}</h3>`;
+  a.lines.forEach((l,i)=>{
+    const key = a.id+i; qty[key]=0;
+    const row = document.createElement('div'); row.className='line';
+    row.innerHTML = `<span class="lbl">${l[0]}<small>${fmtEur(l[1])} · ${fmtBgn(l[1])}${l[2]?' '+l[2]:''}</small></span>
+      <span class="stepper">
+        <button type="button" aria-label="Намали: ${l[0]}">−</button>
+        <input type="number" min="0" max="99" value="0" inputmode="numeric" aria-label="Брой: ${l[0]}">
+        <button type="button" aria-label="Увеличи: ${l[0]}">+</button>
+      </span>`;
+    const [minus,input,plus] = [row.querySelectorAll('button')[0],row.querySelector('input'),row.querySelectorAll('button')[1]];
+    const set = v => { v=Math.max(0,Math.min(99,parseInt(v)||0)); qty[key]=v; input.value=v; render(); };
+    minus.onclick=()=>set(qty[key]-1); plus.onclick=()=>set(qty[key]+1);
+    input.oninput=()=>set(input.value);
+    row.dataset.key=key; l.key=key; l.input=input;
+    box.appendChild(row);
+  });
+  itemsEl.appendChild(box);
+});
+
+function render(){
+  const list = document.getElementById('breakdown'); list.innerHTML=''; let total=0;
+  ATTRACTIONS.forEach(a=>a.lines.forEach(l=>{
+    const n=qty[l.key]; if(!n) return;
+    const sub=n*l[1]; total+=sub;
+    const li=document.createElement('li');
+    li.innerHTML=`<span>${n} × ${l[0]}</span><span>${fmtEur(sub)}</span>`;
+    list.appendChild(li);
+  }));
+  if(!total){const li=document.createElement('li');li.className='empty';li.textContent='Още не сте избрали нищо.';list.appendChild(li);}
+  document.getElementById('totalEur').textContent=fmtEur(total);
+  document.getElementById('totalBgn').textContent=fmtBgn(total);
+}
+document.getElementById('reset').onclick=()=>{
+  ATTRACTIONS.forEach(a=>a.lines.forEach(l=>{qty[l.key]=0;l.input.value=0;})); render();
+};
+render();
+
+/* ---------- Карта ---------- */
+// Сложете собствен ключ тук и го ограничете по домейн в Google Cloud Console.
+const MAPS_KEY = '';
+const PLACES = [
+  {t:'Център на Бургас',      p:{lat:42.5048,lng:27.4626}, l:'Ц'},
+  {t:'Морска гара',           p:{lat:42.4893,lng:27.4815}, l:'М'},
+  {t:'Жп гара и автогара',    p:{lat:42.4983,lng:27.4806}, l:'Г'},
+  {t:'Летище Бургас',         p:{lat:42.5696,lng:27.5152}, l:'Л'},
+];
+function showMapFallback(){
+  document.getElementById('map').innerHTML =
+    '<div><p>Картата не е налична.</p><p><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Бургас">Отвори Бургас в Google Maps</a></p></div>';
+}
+window.initMap=function(){
+  const map=new google.maps.Map(document.getElementById('map'),{zoom:12,center:PLACES[0].p,mapTypeControl:false,streetViewControl:false});
+  const info=new google.maps.InfoWindow();
+  PLACES.forEach(x=>{
+    const m=new google.maps.Marker({position:x.p,map,title:x.t,label:x.l});
+    m.addListener('click',()=>{info.setContent(`<strong>${x.t}</strong>`);info.open(map,m);});
+  });
+};
+if(MAPS_KEY){
+  const s=document.createElement('script');
+  s.src=`https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&callback=initMap&loading=async`;
+  s.async=true; s.onerror=showMapFallback; document.head.appendChild(s);
+} else showMapFallback();
+
+/* снимките се скриват, ако не се заредят */
+document.querySelectorAll('.place img').forEach(i=>i.addEventListener('error',()=>{i.removeAttribute('src');}));
+</script>
+</body>
+</html>
